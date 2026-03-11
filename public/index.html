@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GeoTracker Pro</title>
+    <title>GeoTracker Pro + Live Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Pastikan peta memiliki tinggi */
+        #map { 
+            height: 400px; 
+            width: 100%; 
+            margin-top: 20px; 
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+    </style>
 </head>
 <body>
     <div id="auth-section">
@@ -13,12 +24,14 @@
     </div>
 
     <div id="tracking-section" style="display:none;">
-        <h2>Tracking Lokasi</h2>
-        <p>Status: <span id="status">Siap</span></p>
+        <h2>Tracking Lokasi Aktif</h2>
+        <p>Status: <span id="status">Menunggu data...</span></p>
         <button id="btn-track" onclick="toggleTracking()">Aktifkan Lokasi</button>
-        <div id="log"></div>
+        
+        <div id="map"></div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
