@@ -1,1 +1,2 @@
 # Lokasi.Saya
+Membuat sistem pelacakan lokasi real-time memerlukan koordinasi yang apik antara sisi klien (browser) dan sisi server. Karena kita berurusan dengan data privasi (lokasi), keamanan menjadi prioritas yang paling utama.
