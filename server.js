@@ -43,4 +43,4 @@ app.post('/update-location', authMiddleware, (req, res) => {
     res.send({ status: "Lokasi diperbarui" });
 });
 
-app.listen(3000, () => console.log('Server lari di http://localhost:3000'));
+app.listen(3000, () => console.log('Server lari di http://localhost:5955'));
