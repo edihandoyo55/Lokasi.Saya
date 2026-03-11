@@ -1,4 +1,19 @@
 let watchId = null;
+let map, marker;
+
+// Inisialisasi Peta Leaflet
+function initMap() {
+    // Set tampilan awal ke koordinat 0,0 (tengah dunia)
+    map = L.map('map').setView([0, 0], 2);
+    
+    // Gunakan provider peta OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Siapkan marker kosong
+    marker = L.marker([0, 0]).addTo(map);
+}
 
 async function login() {
     const user = document.getElementById('username').value;
@@ -13,6 +28,7 @@ async function login() {
     if (res.ok) {
         document.getElementById('auth-section').style.display = 'none';
         document.getElementById('tracking-section').style.display = 'block';
+        initMap(); // Panggil peta setelah login berhasil
     } else {
         alert("Login Gagal!");
     }
@@ -26,22 +42,24 @@ function toggleTracking() {
     } else {
         if ("geolocation" in navigator) {
             watchId = navigator.geolocation.watchPosition(sendLocation, handleError, {
-                enableHighAccuracy: true,
-                maximumAge: 30000,
-                timeout: 27000
+                enableHighAccuracy: true
             });
             document.getElementById('btn-track').innerText = "Matikan Lokasi";
-        } else {
-            alert("Browser tidak mendukung Geolocation");
         }
     }
 }
 
 async function sendLocation(position) {
     const { latitude, longitude } = position.coords;
-    document.getElementById('status').innerText = `Lat: ${latitude}, Lng: ${longitude}`;
+    
+    // 1. Update Tampilan Peta
+    const newPos = [latitude, longitude];
+    marker.setLatLng(newPos);
+    map.setView(newPos, 15); // Zoom ke lokasi user
+    
+    document.getElementById('status').innerText = `Lat: ${latitude.toFixed(5)}, Lng: ${longitude.toFixed(5)}`;
 
-    // Kirim ke Backend
+    // 2. Kirim ke Backend (Tetap sama seperti sebelumnya)
     await fetch('/update-location', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,5 +68,7 @@ async function sendLocation(position) {
 }
 
 function handleError(err) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
+    const status = document.getElementById('status');
+    if (err.code === 1) status.innerText = "Akses lokasi ditolak pengguna.";
+    else status.innerText = "Gagal mendapatkan lokasi.";
 }
