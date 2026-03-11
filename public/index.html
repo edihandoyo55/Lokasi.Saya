@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GeoTracker Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="auth-section">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Masuk</button>
+    </div>
+
+    <div id="tracking-section" style="display:none;">
+        <h2>Tracking Lokasi</h2>
+        <p>Status: <span id="status">Siap</span></p>
+        <button id="btn-track" onclick="toggleTracking()">Aktifkan Lokasi</button>
+        <div id="log"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
